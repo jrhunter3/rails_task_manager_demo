@@ -1,0 +1,17 @@
+<div style="display: flex; justify-content: space-between; align-items: center;">
+  <h1>Projects</h1>
+  <%= link_to "New Project", new_project_path %>
+</div>
+
+<% if @projects.any? %>
+  <ul>
+    <% @projects.each do |project| %>
+      <li>
+        <%= link_to project.name, project %>
+        <small>(<%= project.owner.email %>)</small>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>No projects yet.</p>
+<% end %>
