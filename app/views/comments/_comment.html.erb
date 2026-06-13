@@ -1,0 +1,12 @@
+<div id="<%= dom_id(comment) %>" class="comment">
+  <p><strong><%= comment.user.email %></strong> <%= t(".said") %>:</p>
+  <div><%= comment.content %></div>
+  <p><small><%= time_ago_in_words(comment.created_at) %> <%= t(".ago") %></small></p>
+
+  <% if policy(comment).update? %>
+    <%= link_to t(".edit"), edit_project_task_comment_path(@project, @task, comment) %> |
+  <% end %>
+  <% if policy(comment).destroy? %>
+    <%= link_to t(".delete"), [@project, @task, comment], data: { turbo_method: :delete, turbo_confirm: t(".confirm_delete") } %>
+  <% end %>
+</div>

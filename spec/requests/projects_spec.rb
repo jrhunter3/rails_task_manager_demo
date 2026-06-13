@@ -30,6 +30,19 @@ RSpec.describe "Projects", type: :request do
 
       expect(response.body).not_to include(other_project.name)
     end
+
+    it "filters by search query" do
+      matching = create(:project, name: "Alpha Project")
+      other = create(:project, name: "Beta Project")
+      create(:project_membership, user: user, project: matching)
+      create(:project_membership, user: user, project: other)
+
+      sign_in user
+      get projects_path, params: { q: { name_or_description_cont: "Alpha" } }
+
+      expect(response.body).to include("Alpha Project")
+      expect(response.body).not_to include("Beta Project")
+    end
   end
 
   describe "GET /projects/:id" do
@@ -53,6 +66,13 @@ RSpec.describe "Projects", type: :request do
       expect(response).to redirect_to(root_path)
       expect(flash[:alert]).to eq("You are not authorized to perform this action.")
     end
+
+    it "returns 404 for a non-existent project" do
+      sign_in user
+      get project_path(id: -1)
+
+      expect(response).to have_http_status(:not_found)
+    end
   end
 
   describe "GET /projects/new" do
@@ -61,6 +81,36 @@ RSpec.describe "Projects", type: :request do
       get new_project_path
       expect(response).to have_http_status(:success)
       expect(response.body).to include("New Project")
+    end
+  end
+
+  describe "GET /projects/:id/edit" do
+    it "renders the form for an admin" do
+      project = create(:project)
+      create(:project_membership, user: user, project: project, role: :admin)
+
+      sign_in user
+      get edit_project_path(project)
+
+      expect(response).to have_http_status(:success)
+      expect(response.body).to include("Edit Project")
+    end
+
+    it "blocks edit for a regular member" do
+      project = create(:project)
+      create(:project_membership, user: user, project: project, role: :member)
+
+      sign_in user
+      get edit_project_path(project)
+
+      expect(response).to redirect_to(root_path)
+    end
+
+    it "returns 404 for a non-existent project" do
+      sign_in user
+      get edit_project_path(id: -1)
+
+      expect(response).to have_http_status(:not_found)
     end
   end
 
@@ -97,6 +147,17 @@ RSpec.describe "Projects", type: :request do
       expect(response).to redirect_to(project_path(project))
     end
 
+    it "renders edit on validation failure" do
+      project = create(:project)
+      create(:project_membership, user: user, project: project, role: :admin)
+
+      sign_in user
+      patch project_path(project), params: { project: { name: "" } }
+
+      expect(response).to have_http_status(:unprocessable_content)
+      expect(response.body).to include("Edit Project")
+    end
+
     it "blocks update for a regular member" do
       project = create(:project)
       create(:project_membership, user: user, project: project, role: :member)
@@ -106,6 +167,13 @@ RSpec.describe "Projects", type: :request do
 
       expect(response).to redirect_to(root_path)
       expect(flash[:alert]).to eq("You are not authorized to perform this action.")
+    end
+
+    it "returns 404 for a non-existent project" do
+      sign_in user
+      patch project_path(id: -1), params: { project: { name: "Nope" } }
+
+      expect(response).to have_http_status(:not_found)
     end
   end
 
@@ -132,6 +200,13 @@ RSpec.describe "Projects", type: :request do
       end.not_to change(Project, :count)
 
       expect(response).to redirect_to(root_path)
+    end
+
+    it "returns 404 for a non-existent project" do
+      sign_in user
+      delete project_path(id: -1)
+
+      expect(response).to have_http_status(:not_found)
     end
   end
 end

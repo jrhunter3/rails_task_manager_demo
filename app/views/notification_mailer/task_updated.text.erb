@@ -1,0 +1,9 @@
+<%= t("notification_mailer.task_updated.subject", task_title: @task.title) %>
+
+<%= t("notification_mailer.task_updated.body_text", task_title: @task.title, project_name: @project.name) %>
+
+<%= t("notification_mailer.task_updated.status") %>: <%= @task.status %>
+<%= t("notification_mailer.task_updated.priority") %>: <%= @task.priority %>
+<%= t("notification_mailer.task_updated.due") %>: <%= @task.due_date || t("notification_mailer.task_updated.not_set") %>
+
+<%= t("notification_mailer.task_updated.view_task") %>: <%= project_task_url(@project, @task) %>

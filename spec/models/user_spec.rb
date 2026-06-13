@@ -34,6 +34,16 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe 'callbacks' do
+    it 'generates an API token before creation' do
+      user = build(:user)
+      expect(user.api_token).to be_nil
+      user.save!
+      expect(user.api_token).to be_present
+      expect(user.raw_api_token).to be_present
+    end
+  end
+
   describe 'Devise modules' do
     it 'authenticates with valid credentials' do
       user = create(:user, password: 'secret123', password_confirmation: 'secret123')

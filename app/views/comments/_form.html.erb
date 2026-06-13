@@ -1,0 +1,11 @@
+<%= form_with(model: [@project, @task, @comment || @task.comments.build], local: true) do |form| %>
+  <%= render "application/error_messages", form: form %>
+
+  <div>
+    <%= form.rich_text_area :content, placeholder: t(".placeholder") %>
+  </div>
+
+  <div>
+    <%= form.submit t(".post") %>
+  </div>
+<% end %>

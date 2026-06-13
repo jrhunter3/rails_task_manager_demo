@@ -1,0 +1,27 @@
+<h1><%= t(".title") %> <%= link_to @project.name, @project %></h1>
+
+<%= link_to t(".new"), new_project_task_path(@project) %>
+
+<%= search_form_for @q, url: project_tasks_path(@project) do |f| %>
+  <%= f.search_field :title_or_description_cont, placeholder: t(".search_placeholder") %>
+  <%= f.select :status_eq, Task.aasm.states.map { |s| [s.name.to_s.humanize, s.name] }, include_blank: t(".any_status") %>
+  <%= f.select :priority_eq, Task.priorities.map { |k, v| [k.humanize, v] }, include_blank: t(".any_priority") %>
+  <%= f.submit t(".filter") %>
+<% end %>
+
+<% if @tasks.any? %>
+  <ul>
+    <% @tasks.each do |task| %>
+      <li>
+        <%= link_to task.title, [@project, task] %>
+        <small>[<%= task.status %>]</small>
+      </li>
+    <% end %>
+  </ul>
+
+  <%== pagy_nav(@pagy) if @pagy.pages > 1 %>
+<% else %>
+  <p><%= t(".empty") %></p>
+<% end %>
+
+<%= link_to t(".back"), @project %>

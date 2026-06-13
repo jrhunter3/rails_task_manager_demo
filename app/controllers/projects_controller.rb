@@ -3,7 +3,8 @@ class ProjectsController < ApplicationController
   before_action :set_project, only: %i[show edit update destroy]
 
   def index
-    @projects = policy_scope(Project)
+    @q = policy_scope(Project).ransack(params[:q])
+    @pagy, @projects = pagy(@q.result.includes(:owner))
   end
 
   def show
@@ -25,8 +26,7 @@ class ProjectsController < ApplicationController
     authorize @project
 
     if @project.save
-      @project.project_memberships.create!(user: current_user, role: :admin)
-      redirect_to @project, notice: "Project created."
+      redirect_to @project, notice: t("projects.create.success")
     else
       render :new, status: :unprocessable_content
     end
@@ -35,7 +35,7 @@ class ProjectsController < ApplicationController
   def update
     authorize @project
     if @project.update(project_params)
-      redirect_to @project, notice: "Project updated."
+      redirect_to @project, notice: t("projects.update.success")
     else
       render :edit, status: :unprocessable_content
     end
@@ -44,7 +44,7 @@ class ProjectsController < ApplicationController
   def destroy
     authorize @project
     @project.destroy!
-    redirect_to projects_path, notice: "Project deleted."
+    redirect_to projects_path, notice: t("projects.destroy.success")
   end
 
   private

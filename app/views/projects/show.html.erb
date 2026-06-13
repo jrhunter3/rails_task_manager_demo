@@ -2,8 +2,9 @@
 
 <p><%= @project.description %></p>
 
-<p><strong>Owner:</strong> <%= @project.owner.email %></p>
+<p><strong><%= t(".owner") %>:</strong> <%= @project.owner.email %></p>
 
-<%= link_to "Edit", edit_project_path(@project) %> |
-<%= link_to "Back", projects_path %> |
-<%= link_to "Delete", @project, data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
+<%= link_to t(".tasks"), project_tasks_path(@project) %> |
+<%= link_to t(".edit"), edit_project_path(@project) %> |
+<%= link_to t(".back"), projects_path %> |
+<%= link_to t(".delete"), @project, data: { turbo_method: :delete, turbo_confirm: t(".confirm_delete") } %>

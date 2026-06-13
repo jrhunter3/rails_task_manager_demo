@@ -1,0 +1,17 @@
+<%= form_with model: @project do |f| %>
+  <%= render "application/error_messages", form: f %>
+
+  <div>
+    <%= f.label :name %>
+    <%= f.text_field :name, required: true %>
+  </div>
+
+  <div>
+    <%= f.label :description %>
+    <%= f.text_area :description %>
+  </div>
+
+  <div>
+    <%= f.submit @project.new_record? ? t(".create") : t(".update") %>
+  </div>
+<% end %>

@@ -1,6 +1,7 @@
 class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
+         :recoverable, :rememberable, :validatable,
+         :timeoutable, :lockable
 
   enum :role, { member: 0, admin: 1 }
 
@@ -9,4 +10,15 @@ class User < ApplicationRecord
   has_many :projects, through: :project_memberships
 
   validates :role, presence: true
+
+  attr_accessor :raw_api_token
+
+  before_create :generate_api_token
+
+  private
+
+  def generate_api_token
+    self.raw_api_token = SecureRandom.hex(32)
+    self.api_token = Digest::SHA256.hexdigest(raw_api_token)
+  end
 end

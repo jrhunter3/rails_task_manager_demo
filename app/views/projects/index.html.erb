@@ -1,7 +1,12 @@
-<div style="display: flex; justify-content: space-between; align-items: center;">
-  <h1>Projects</h1>
-  <%= link_to "New Project", new_project_path %>
+<div class="toolbar">
+  <h1><%= t(".title") %></h1>
+  <%= link_to t(".new"), new_project_path %>
 </div>
+
+<%= search_form_for @q do |f| %>
+  <%= f.search_field :name_or_description_cont, placeholder: t(".search_placeholder") %>
+  <%= f.submit t(".search") %>
+<% end %>
 
 <% if @projects.any? %>
   <ul>
@@ -12,6 +17,8 @@
       </li>
     <% end %>
   </ul>
+
+  <%== pagy_nav(@pagy) if @pagy.pages > 1 %>
 <% else %>
-  <p>No projects yet.</p>
+  <p><%= t(".empty") %></p>
 <% end %>

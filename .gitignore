@@ -42,3 +42,10 @@
 
 # Ignore Docker files used in development (generated)
 .kamal/
+
+# Ignore test coverage output
+/coverage/
+/coverage.*/
+
+# Ignore RSpec example status persistence
+/spec/examples.txt

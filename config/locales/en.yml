@@ -1,31 +1,137 @@
-# Files in the config/locales directory are used for internationalization and
-# are automatically loaded by Rails. If you want to use locales other than
-# English, add the necessary files in this directory.
-#
-# To use the locales, use `I18n.t`:
-#
-#     I18n.t "hello"
-#
-# In views, this is aliased to just `t`:
-#
-#     <%= t("hello") %>
-#
-# To use a different locale, set it with `I18n.locale`:
-#
-#     I18n.locale = :es
-#
-# This would use the information in config/locales/es.yml.
-#
-# To learn more about the API, please read the Rails Internationalization guide
-# at https://guides.rubyonrails.org/i18n.html.
-#
-# Be aware that YAML interprets the following case-insensitive strings as
-# booleans: `true`, `false`, `on`, `off`, `yes`, `no`. Therefore, these strings
-# must be quoted to be interpreted as strings. For example:
-#
-#     en:
-#       "yes": yup
-#       enabled: "ON"
-
 en:
-  hello: "Hello world"
+  layouts:
+    application:
+      title: "Rails Task Manager Demo"
+      nav:
+        task_manager: "Task Manager"
+        projects: "Projects"
+        sign_out: "Sign out"
+        sign_in: "Sign in"
+        sign_up: "Sign up"
+
+  home:
+    index:
+      title: "Task Manager"
+      welcome: "Welcome, %{email}"
+      role: "Role: %{role}"
+      sign_out: "Sign out"
+      sign_in: "Sign in"
+      sign_up: "Sign up"
+
+  unauthorized:
+    default: "You are not authorized to perform this action."
+
+  unprocessable:
+    default: "Something went wrong. Please try again."
+
+  api:
+    unauthorized: "Unauthorized"
+    not_found: "Not found"
+    forbidden: "Forbidden"
+    unprocessable: "Unprocessable"
+    bad_request: "Bad request"
+    internal_server_error: "Internal server error"
+
+  notification_mailer:
+    comment_added:
+      subject: "New comment on %{task_title}"
+      body_html: "<strong>%{author_email}</strong> added a comment to task <strong>%{task_title}</strong> in project <strong>%{project_name}</strong>:"
+      body_text: "%{author_email} added a comment to task %{task_title} in project %{project_name}:"
+      view_task: "View task"
+    task_updated:
+      subject: "Task updated: %{task_title}"
+      body_html: "Task <strong>%{task_title}</strong> in project <strong>%{project_name}</strong> has been updated."
+      body_text: "Task %{task_title} in project %{project_name} has been updated."
+      status: "Status"
+      priority: "Priority"
+      due: "Due"
+      not_set: "Not set"
+      view_task: "View task"
+
+  projects:
+    create:
+      success: "Project created."
+    update:
+      success: "Project updated."
+    destroy:
+      success: "Project deleted."
+    form:
+      create: "Create Project"
+      update: "Update Project"
+    index:
+      title: "Projects"
+      new: "New Project"
+      search_placeholder: "Search projects..."
+      search: "Search"
+      empty: "No projects yet."
+    new:
+      title: "New Project"
+      back: "Back"
+    edit:
+      title: "Edit Project"
+    show:
+      owner: "Owner"
+      tasks: "Tasks"
+      edit: "Edit"
+      back: "Back"
+      delete: "Delete"
+      confirm_delete: "Are you sure?"
+
+  tasks:
+    create:
+      success: "Task created."
+    update:
+      success: "Task updated."
+    destroy:
+      success: "Task deleted."
+    transition:
+      success: "Task moved to %{status}."
+      failure: "Cannot perform that transition."
+    form:
+      create: "Create Task"
+      update: "Update Task"
+    index:
+      title: "Tasks for"
+      new: "New Task"
+      search_placeholder: "Search tasks..."
+      any_status: "Any status"
+      any_priority: "Any priority"
+      filter: "Filter"
+      empty: "No tasks yet."
+      back: "Back to project"
+    new:
+      title: "New Task"
+      back: "Back"
+    edit:
+      title: "Edit Task"
+    show:
+      status: "Status"
+      priority: "Priority"
+      due: "Due"
+      not_set: "Not set"
+      attachments: "Attachments"
+      edit: "Edit"
+      back: "Back to tasks"
+      delete: "Delete"
+      confirm_delete: "Are you sure?"
+      comments: "Comments"
+
+  comments:
+    create:
+      success: "Comment added."
+    update:
+      success: "Comment updated."
+    destroy:
+      success: "Comment deleted."
+    comment:
+      said: "said"
+      ago: "ago"
+      edit: "Edit"
+      delete: "Delete"
+      confirm_delete: "Are you sure?"
+    form:
+      placeholder: "Add a comment..."
+      post: "Post Comment"
+    edit:
+      title: "Edit Comment"
+      back: "Back to task"

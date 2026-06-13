@@ -1,0 +1,9 @@
+<h1><%= t("notification_mailer.comment_added.subject", task_title: @task.title) %></h1>
+
+<p><%= t("notification_mailer.comment_added.body_html", author_email: @author.email, task_title: @task.title, project_name: @project.name) %></p>
+
+<blockquote>
+  <%= @comment.content %>
+</blockquote>
+
+<p><%= link_to t("notification_mailer.comment_added.view_task"), project_task_url(@project, @task) %></p>

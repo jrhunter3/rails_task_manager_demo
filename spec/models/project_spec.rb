@@ -18,6 +18,18 @@ RSpec.describe Project, type: :model do
       create(:project_membership, user: user, project: project)
       expect(project.members).to include(user)
     end
+
+    it 'destroys associated memberships on deletion' do
+      project = create(:project)
+      create(:project_membership, project: project)
+      expect { project.destroy! }.to change(ProjectMembership, :count).by(-2)
+    end
+
+    it 'destroys associated tasks on deletion' do
+      project = create(:project)
+      create(:task, project: project)
+      expect { project.destroy! }.to change(Task, :count).by(-1)
+    end
   end
 
   describe 'factories' do

@@ -1,0 +1,6 @@
+class AddDeviseLockableToUsers < ActiveRecord::Migration[8.1]
+  def change
+    add_column :users, :failed_attempts, :integer
+    add_column :users, :locked_at, :datetime
+  end
+end

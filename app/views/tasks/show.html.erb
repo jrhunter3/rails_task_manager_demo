@@ -1,0 +1,42 @@
+<h1><%= @task.title %></h1>
+
+<p><%= @task.description %></p>
+
+<p>
+  <strong><%= t(".status") %>:</strong> <%= @task.status.humanize %><br>
+  <strong><%= t(".priority") %>:</strong> <%= @task.priority.humanize %><br>
+  <strong><%= t(".due") %>:</strong> <%= @task.due_date || t(".not_set") %>
+</p>
+
+<div class="actions">
+  <% task_state_events(@task).each do |event| %>
+    <%= button_to event.name.to_s.humanize,
+          transition_project_task_path(@project, @task, event: event.name),
+          method: :post %>
+  <% end %>
+</div>
+
+<% if @task.files.any? %>
+  <div>
+    <strong><%= t(".attachments") %>:</strong>
+    <ul>
+      <% @task.files.each do |file| %>
+        <li><%= link_to file.filename.sanitized, url_for(file) %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<%= link_to t(".edit"), edit_project_task_path(@project, @task) %> |
+<%= link_to t(".back"), project_tasks_path(@project) %> |
+<%= link_to t(".delete"), [@project, @task], data: { turbo_method: :delete, turbo_confirm: t(".confirm_delete") } %>
+
+<hr>
+
+<h2><%= t(".comments") %></h2>
+
+<div id="comments">
+  <%= render @comments %>
+</div>
+
+<%= render "comments/form" %>

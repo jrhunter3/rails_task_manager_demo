@@ -1,0 +1,7 @@
+<%= t("notification_mailer.comment_added.subject", task_title: @task.title) %>
+
+<%= t("notification_mailer.comment_added.body_text", author_email: @author.email, task_title: @task.title, project_name: @project.name) %>
+
+<%= strip_tags(@comment.content.to_plain_text) %>
+
+<%= t("notification_mailer.comment_added.view_task") %>: <%= project_task_url(@project, @task) %>

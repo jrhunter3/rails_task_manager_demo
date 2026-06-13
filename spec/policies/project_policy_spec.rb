@@ -64,5 +64,23 @@ RSpec.describe ProjectPolicy do
       expect(scope).to include(member_project)
       expect(scope).not_to include(other_project)
     end
+
+    it "includes all projects for a site admin" do
+      admin = create(:user, :admin)
+      project1 = create(:project)
+      project2 = create(:project)
+
+      scope = described_class::Scope.new(admin, Project.all).resolve
+      expect(scope).to include(project1)
+      expect(scope).to include(project2)
+    end
+
+    it "includes no projects for a non-member" do
+      non_member = create(:user)
+      create(:project)
+
+      scope = described_class::Scope.new(non_member, Project.all).resolve
+      expect(scope).to be_empty
+    end
   end
 end
