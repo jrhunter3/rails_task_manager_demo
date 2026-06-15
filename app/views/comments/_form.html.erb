@@ -1,4 +1,4 @@
-<%= form_with(model: [@project, @task, @comment || @task.comments.build], local: true) do |form| %>
+<%= form_with(model: [@project, @task, @comment || @task.comments.build]) do |form| %>
   <%= render "application/error_messages", form: form %>
 
   <div>

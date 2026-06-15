@@ -1,0 +1,23 @@
+# Development override — use with: docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    environment:
+      RAILS_ENV: development
+      DATABASE_HOST: postgres
+      DATABASE_PORT: "5432"
+      DATABASE_USERNAME: rails_task_manager_demo
+      DATABASE_PASSWORD: ${RAILS_TASK_MANAGER_DEMO_DATABASE_PASSWORD}
+      FORCE_SSL: "false"
+    ports:
+      - "${DEV_PORT:-3000}:3000"
+    volumes:
+      - .:/rails
+      - bundle_data:/bundle
+    # Override the production CMD to use the dev server
+    command: ["./bin/rails", "server", "-b", "0.0.0.0"]
+
+volumes:
+  bundle_data:

@@ -6,6 +6,7 @@ Rails.application.configure do
     policy.object_src  :none
     policy.script_src  :self, :https
     policy.style_src   :self, :https
+    policy.style_src_attr :unsafe_inline
     policy.form_action :self
     policy.base_uri    :self
   end
