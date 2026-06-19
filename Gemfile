@@ -36,7 +36,7 @@ gem "sentry-rails"
 
 # Search and pagination
 gem "ransack", "~> 4.4"
-gem "pagy", "~> 9.0"
+gem "pagy", "~> 43.5"
 
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 # gem "bcrypt", "~> 3.1.7"
